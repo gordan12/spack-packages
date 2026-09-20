@@ -68,18 +68,12 @@ class PyPyscf(PythonPackage):
     depends_on("blas")
     depends_on("libcint+coulomb_erf+f12")
     depends_on("libxc")
+    # libxc_itrf.c guards on XC_MAJOR_VERSION
+    depends_on("libxc@:5", when="@:2.1")
+    depends_on("libxc@:6", when="@2.2:2.7")
+    depends_on("libxc@:7", when="@2.8:")
     depends_on("xcfun")
 
     def setup_build_environment(self, env: EnvironmentModifications) -> None:
-        # Tell PSCF where supporting libraries are located."
-        spec = self.spec
-
-        pyscf_search_dir = []
-        pyscf_search_dir.append(spec["blas"].prefix)
-        pyscf_search_dir.append(spec["libcint"].prefix)
-        pyscf_search_dir.append(spec["libcint"].prefix.lib64)
-        pyscf_search_dir.append(spec["libxc"].prefix)
-        pyscf_search_dir.append(spec["xcfun"].prefix)
-        pyscf_search_dir.append(spec["xcfun"].prefix.include.XCFun)
-
-        env.set("PYSCF_INC_DIR", ":".join(pyscf_search_dir))
+        # otherwise CMakeLists.txt downloads and builds its own copies of these
+        env.set("CMAKE_CONFIGURE_ARGS", "-DBUILD_LIBCINT=OFF -DBUILD_LIBXC=OFF -DBUILD_XCFUN=OFF")
