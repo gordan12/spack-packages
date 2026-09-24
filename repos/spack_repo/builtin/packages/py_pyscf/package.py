@@ -19,6 +19,7 @@ class PyPyscf(PythonPackage):
 
     license("Apache-2.0")
 
+    version("2.14.0", sha256="9b6ea3c2470baac9d0492d93b335542c04ab96277e79f1abcbe1cea0eb063c5f")
     version("2.13.0", sha256="5381c77568cc894df57f82aca1f025275322ac52b32b5aa86806a4649baa1eae")
     version("2.12.1", sha256="cae3b026a928ce866965242056a833a17e46b89035d2e3abbf5429a158da4d48")
     version("2.12.0", sha256="6c1ddb594ccc12f2b7411cfff977ab4b0cd0ade25cc454646cc26f93f97ce16e")
@@ -45,7 +46,7 @@ class PyPyscf(PythonPackage):
     depends_on("cxx", type="build")
 
     # dependencies
-    depends_on("cmake@3", type="build", when="@:2.13.0")
+    depends_on("cmake@3", type="build", when="@:2.14.0")
     depends_on("cmake@3.10:", type="build", when="@2.1:")
     depends_on("cmake@2.8:", type="build")
     depends_on("python@3.7:", type=("build", "run"), when="@2.13.0:")
